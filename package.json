@@ -1,0 +1,24 @@
+{
+  "name": "faux-knox",
+  "version": "0.0.0",
+  "description": "Mock requests to knox module using file system",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_module/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wlaurance/faux-knox.git"
+  },
+  "keywords": [
+    "knox",
+    "mock"
+  ],
+  "author": "Will S. Laurance",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "cf1d54e5cf8ae5e6a6e2142ab42f7eb4a068147a",
+  "bugs": {
+    "url": "https://github.com/wlaurance/faux-knox/issues"
+  }
+}
