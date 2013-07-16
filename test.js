@@ -18,7 +18,7 @@ describe('Faux-Knox', function(){
       async.each(methods, checker, done);
     });
   });
-  describe('Functional', function(){
+  describe('getFile', function(){
     var client = knox.createClient({bucket:'./test_files'});
     it('should get a file', function(done){
       client.getFile('path/to/test.json', null, function(err, cres){
@@ -46,6 +46,19 @@ describe('Faux-Knox', function(){
       client.getFile('path/to/nofile.txt', null, function(err, cres){
         cres.should.have.property('statusCode', 404);
         done();
+      });
+    });
+  });
+  describe('putFile', function(){
+    var client = knox.createClient({bucket:'./test_files'});
+    it('should put a file into bucket', function(done){
+      client.putFile('./test_files/put/fort_knox_tank.jpg', 'from/fort/knox/super_tank.jpg', function(err, res){
+        res.should.have.property('headers');
+        res.headers.should.have.property('statusCode', 201);
+        fs.exists('./test_files/from/fort/knox/supert_tank.jpg', function(existy){
+          existy.should.be.true;
+          done();
+        });
       });
     });
   });
