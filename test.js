@@ -73,6 +73,7 @@ describe('Faux-Knox', function(){
       client.putBuffer(buff, 'from/buffer/land/dev/null.text', {'Content-Type':'text/plain'}, function(err, res){
         res.should.have.property('headers');
         res.headers.should.have.property('statusCode', 201);
+        done();
       });
     });
   });

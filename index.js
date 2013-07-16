@@ -1,7 +1,7 @@
 var fs = require('fs'),
-    _ = require('underscore'),
     async = require('async'),
-    mkdirp = require('mkdirp');
+    stream = require('stream'),
+    utils = require(__dirname + '/utils');
 
 exports.createClient = function(config){
   function Client(config){
@@ -37,11 +37,7 @@ exports.createClient = function(config){
 
     Client.prototype.putFile = function(from, to, callback){
       function checkToPath(cb){
-        var splitPath = to.split('/');
-        var dirPath = config.bucket + _.initial(splitPath, 1).join('/');
-        fs.exists(dirPath, function(exists){
-          return exists ? cb() : mkdirp(dirPath, cb);
-        });
+        utils.checkToPath(config.bucket + to, cb);
       }
       function checkFromPath(cb){
         fs.exists(from, function(exists){
@@ -63,7 +59,16 @@ exports.createClient = function(config){
         r.pipe(w);
       });
     }
-    Client.prototype.putBuffer = function(){}
+    Client.prototype.putBuffer = function(buffer, to, headers, callback){
+      utils.checkToPath(config.bucket + to, function(){
+        fs.writeFile(config.bucket + to, buffer, function(err){
+          if (err) {
+            return callback(err);
+          }
+          return callback(null, {headers:{statusCode:201}});
+        });
+      });
+    }
     Client.prototype.deleteFile = function(){}
   }
   return new Client(config);
