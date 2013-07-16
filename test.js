@@ -1,5 +1,5 @@
-var express = require('express'),
-    should = require('should'),
+var should = require('should'),
+    fs = require('fs'),
     async = require('async'),
     knox = require('./index');
 
@@ -24,7 +24,22 @@ describe('Faux-Knox', function(){
       client.getFile('path/to/test.json', null, function(err, cres){
         cres.should.have.property('statusCode', 200);
         cres.should.have.property('headers').be.a('object');
-        done();
+        function getBuffer(callback){
+          var buffer = "";
+          cres.on('end', function(){
+            callback(null, buffer);
+          });
+          cres.on('data', function(d){
+            buffer = buffer + d.toString();
+          });
+        };
+        function getFSFile(callback){
+          fs.readFile('./test_files/path/to/test.json', callback);
+        }
+        async.series([getBuffer, getFSFile], function(err, results){
+          should.strictEqual(results[0], results[1].toString());
+          done();
+        });
       });
     });
     it('should not get a file', function(done){
