@@ -36,7 +36,7 @@ describe('Faux-Knox', function(){
         function getFSFile(callback){
           fs.readFile('./test_files/path/to/test.json', callback);
         }
-        async.series([getBuffer, getFSFile], function(err, results){
+        async.parallel([getBuffer, getFSFile], function(err, results){
           should.strictEqual(results[0], results[1].toString());
           done();
         });
