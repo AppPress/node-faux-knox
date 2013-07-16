@@ -69,7 +69,11 @@ exports.createClient = function(config){
         });
       });
     }
-    Client.prototype.deleteFile = function(){}
+    Client.prototype.deleteFile = function(file, callback){
+      fs.unlink(config.bucket + file, function(err){
+        return callback(null, {headers:{statusCode: err ? 404 : 204}});
+      });
+    }
   }
   return new Client(config);
 };
