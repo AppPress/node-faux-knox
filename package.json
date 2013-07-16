@@ -23,11 +23,12 @@
   },
   "devDependencies": {
     "mocha": "~1.12.0",
-    "async": "~0.2.9",
     "should": "~1.2.2"
   },
   "dependencies": {
     "underscore": "~1.5.1",
-    "mkdirp": "~0.3.5"
+    "async": "~0.2.9",
+    "mkdirp": "~0.3.5",
+    "rimraf": "~2.2.1"
   }
 }

@@ -1,6 +1,7 @@
 var should = require('should'),
     fs = require('fs'),
     async = require('async'),
+    rimraf = require('rimraf'),
     knox = require('./index');
 
 describe('Faux-Knox', function(){
@@ -55,11 +56,20 @@ describe('Faux-Knox', function(){
       client.putFile('./test_files/put/fort_knox_tank.jpg', 'from/fort/knox/super_tank.jpg', function(err, res){
         res.should.have.property('headers');
         res.headers.should.have.property('statusCode', 201);
-        fs.exists('./test_files/from/fort/knox/supert_tank.jpg', function(existy){
+        fs.exists('./test_files/from/fort/knox/super_tank.jpg', function(existy){
           existy.should.be.true;
           done();
         });
       });
+    });
+    it('should not put a file into bucket', function(done){
+      client.putFile('./i/dont/exists.txt', '/dev/null', function(err, res){
+        err.should.have.property('code', 'ENOENT');
+        done();
+      });
+    });
+    after(function(done){
+      rimraf('./test_files/from', done);
     });
   });
 });

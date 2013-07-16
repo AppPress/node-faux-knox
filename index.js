@@ -1,4 +1,7 @@
-var fs = require('fs');
+var fs = require('fs'),
+    _ = require('underscore'),
+    async = require('async'),
+    mkdirp = require('mkdirp');
 
 exports.createClient = function(config){
   function Client(config){
@@ -32,7 +35,34 @@ exports.createClient = function(config){
         stream.on('readable', good);
     };
 
-    Client.prototype.putFile = function(){}
+    Client.prototype.putFile = function(from, to, callback){
+      function checkToPath(cb){
+        var splitPath = to.split('/');
+        var dirPath = config.bucket + _.initial(splitPath, 1).join('/');
+        fs.exists(dirPath, function(exists){
+          return exists ? cb() : mkdirp(dirPath, cb);
+        });
+      }
+      function checkFromPath(cb){
+        fs.exists(from, function(exists){
+          cb(exists ? void 0 : {code:'ENOENT'});
+        });
+      };
+      async.series([checkFromPath, checkToPath], function(err){
+        if (err) {
+          return callback(err);
+        }
+        var r = fs.createReadStream(from),
+            w = fs.createWriteStream(config.bucket + to);
+        w.on('finish', function(){
+          callback(null, {headers:{statusCode:201}});
+        });
+        w.on('error', function(e){
+          callback(null, {headers:{statusCode:404}});
+        });
+        r.pipe(w);
+      });
+    }
     Client.prototype.putBuffer = function(){}
     Client.prototype.deleteFile = function(){}
   }
