@@ -4,7 +4,7 @@
   "description": "Mock requests to knox module using file system",
   "main": "index.js",
   "scripts": {
-    "test": "./node_module/.bin/mocha"
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,14 @@
   "gitHead": "cf1d54e5cf8ae5e6a6e2142ab42f7eb4a068147a",
   "bugs": {
     "url": "https://github.com/wlaurance/faux-knox/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.12.0",
+    "express": "~3.3.4",
+    "async": "~0.2.9",
+    "should": "~1.2.2"
+  },
+  "dependencies": {
+    "request": "~2.22.0"
   }
 }
