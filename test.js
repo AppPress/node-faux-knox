@@ -96,6 +96,13 @@ describe('Faux-Knox', function(){
         });
       });
     });
+    it('should not delete a file', function(done){
+      client.deleteFile('not/a/real/path.js', function(err, res){
+        res.should.have.property('headers');
+        res.headers.should.have.property('statusCode', 404);
+        done();
+      });
+    });
   });
   after(function(done){
     async.each(['./test_files/from', './test_files/to'], rimraf, done);
