@@ -1,9 +1,18 @@
 var fs = require('fs');
 
-module.exports = function(config){
+exports.createClient = function(config){
 
   var client = {
     getFile: function(uri, headers, callback){
+
+    },
+    putFile: function(){
+
+    },
+    putBuffer: function(){
+
+    },
+    deleteFile: function(){
 
     }
   };
