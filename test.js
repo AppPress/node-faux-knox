@@ -97,6 +97,6 @@ describe('Faux-Knox', function(){
     });
   });
   after(function(done){
-    rimraf('./test_files/from', done);
+    async.each(['./test_files/from', './test_files/to'], rimraf, done);
   });
 });
