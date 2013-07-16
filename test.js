@@ -5,12 +5,12 @@ var should = require('should'),
     knox = require('./index');
 
 describe('Faux-Knox', function(){
+  var client = knox.createClient({bucket:'./test_files'});
   describe('API', function(){
     it('should have a createClient function', function(){
       knox.should.have.property('createClient').be.a('function');
     });
     it('should support methods', function(done){
-      var client = knox.createClient();
       var methods = ['getFile', 'putFile', 'putBuffer', 'deleteFile'];
       function checker(method, callback){
         client.should.have.property(method).be.a('function');
@@ -20,7 +20,6 @@ describe('Faux-Knox', function(){
     });
   });
   describe('getFile', function(){
-    var client = knox.createClient({bucket:'./test_files'});
     it('should get a file', function(done){
       client.getFile('path/to/test.json', null, function(err, cres){
         cres.should.have.property('statusCode', 200);
@@ -51,7 +50,6 @@ describe('Faux-Knox', function(){
     });
   });
   describe('putFile', function(){
-    var client = knox.createClient({bucket:'./test_files'});
     it('should put a file into bucket', function(done){
       client.putFile('./test_files/put/fort_knox_tank.jpg', 'from/fort/knox/super_tank.jpg', function(err, res){
         res.should.have.property('headers');
@@ -68,8 +66,37 @@ describe('Faux-Knox', function(){
         done();
       });
     });
-    after(function(done){
-      rimraf('./test_files/from', done);
+  });
+  describe('putBuffer', function(){
+    it('should put a buffer where I tell it to', function(done){
+      var buff = new Buffer(4096);
+      client.putBuffer(buff, 'from/buffer/land/dev/null.text', {'Content-Type':'text/plain'}, function(err, res){
+        res.should.have.property('headers');
+        res.headers.should.have.property('statusCode', 201);
+      });
     });
+  });
+  describe('deleteFile', function(){
+    before(function(done){
+      client.putFile('./test_files/put/fort_knox_tank.jpg', 'to/a/new/path/here/tank.jpg', done);
+    });
+    it('should delete a file', function(done){
+      function fileExists(value, callback){
+        fs.exists('./test_files/put/fort_knox_tank.jpg', function(exists){
+          exists.should.be.value;
+          callback();
+        });
+      }
+      fileExists(true, function(){
+        client.deleteFile('to/a/new/path/here/tank.jpg', function(err, res){
+          res.should.have.property('headers');
+          res.headers.should.have.property('statusCode', 204);
+          fileExists(false, done);
+        });
+      });
+    });
+  });
+  after(function(done){
+    rimraf('./test_files/from', done);
   });
 });
