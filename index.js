@@ -1,6 +1,5 @@
 var fs = require('fs'),
     async = require('async'),
-    stream = require('stream'),
     utils = require(__dirname + '/utils');
 
 exports.createClient = function(config){
