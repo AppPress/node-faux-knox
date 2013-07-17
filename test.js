@@ -48,6 +48,12 @@ describe('Faux-Knox', function(){
         done();
       });
     });
+    it('should get a file that has a uri encoding', function(done){
+      client.getFile(encodeURIComponent('path/to encoded/json file.json'), null, function(err, cres){
+        cres.should.have.property('statusCode', 200);
+        done();
+      });
+    });
   });
   describe('putFile', function(){
     it('should put a file into bucket', function(done){
@@ -65,6 +71,15 @@ describe('Faux-Knox', function(){
         err.should.be.instanceOf(Error);
         err.should.have.property('code', 'ENOENT');
         done();
+      });
+    });
+    it('should put a file into encoded path', function(done){
+      client.putFile('./test_files/put/fort_knox_tank.jpg', encodeURIComponent('from/a fort knox path/super tank.jpg'), function(err, res){
+        res.should.have.property('statusCode', 201);
+        fs.exists('./test_files/from/a fort knox path/super tank.jpg', function(existy){
+          existy.should.be.true;
+          done();
+        });
       });
     });
   });
