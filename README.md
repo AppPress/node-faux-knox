@@ -1,7 +1,9 @@
 faux-knox
 =========
 
-[![Build Status](https://travis-ci.org/wlaurance/faux-knox.png?branch=master)]<span>   </span>(https://travis-ci.org/wlaurance/faux-knox)![david-dm](https://david-dm.org/wlaurance/faux-knox.png) 
+[![Build Status](https://travis-ci.org/wlaurance/faux-knox.png?branch=master)]
+(https://travis-ci.org/wlaurance/faux-knox)
+![david-dm](https://david-dm.org/wlaurance/faux-knox.png) 
 
 A mock knox wrapper
 
