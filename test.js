@@ -23,7 +23,7 @@ describe('Faux-Knox', function(){
     it('should get a file', function(done){
       client.getFile('path/to/test.json', null, function(err, cres){
         cres.should.have.property('headers').be.a('object');
-        cres.headers.should.have.property('statusCode', 200);
+        cres.should.have.property('statusCode', 200);
         function getBuffer(callback){
           var buffer = "";
           cres.on('end', function(){
@@ -44,7 +44,7 @@ describe('Faux-Knox', function(){
     });
     it('should not get a file', function(done){
       client.getFile('path/to/nofile.txt', null, function(err, cres){
-        cres.headers.should.have.property('statusCode', 404);
+        cres.should.have.property('statusCode', 404);
         done();
       });
     });
@@ -52,8 +52,8 @@ describe('Faux-Knox', function(){
   describe('putFile', function(){
     it('should put a file into bucket', function(done){
       client.putFile('./test_files/put/fort_knox_tank.jpg', 'from/fort/knox/super_tank.jpg', function(err, res){
-        res.should.have.property('headers');
-        res.headers.should.have.property('statusCode', 201);
+        res.should.have.property('headers').be.a('object');
+        res.should.have.property('statusCode', 201);
         fs.exists('./test_files/from/fort/knox/super_tank.jpg', function(existy){
           existy.should.be.true;
           done();
@@ -72,8 +72,8 @@ describe('Faux-Knox', function(){
     it('should put a buffer where I tell it to', function(done){
       var buff = new Buffer(4096);
       client.putBuffer(buff, 'from/buffer/land/dev/null.text', {'Content-Type':'text/plain'}, function(err, res){
-        res.should.have.property('headers');
-        res.headers.should.have.property('statusCode', 201);
+        res.should.have.property('headers').be.a('object');
+        res.should.have.property('statusCode', 201);
         done();
       });
     });
@@ -91,16 +91,16 @@ describe('Faux-Knox', function(){
       }
       fileExists(true, function(){
         client.deleteFile('to/a/new/path/here/tank.jpg', function(err, res){
-          res.should.have.property('headers');
-          res.headers.should.have.property('statusCode', 204);
+          res.should.have.property('headers').be.a('object');
+          res.should.have.property('statusCode', 204);
           fileExists(false, done);
         });
       });
     });
     it('should not delete a file', function(done){
       client.deleteFile('not/a/real/path.js', function(err, res){
-        res.should.have.property('headers');
-        res.headers.should.have.property('statusCode', 404);
+        res.should.have.property('headers').be.a('object');
+        res.should.have.property('statusCode', 404);
         done();
       });
     });
