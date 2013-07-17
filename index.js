@@ -21,11 +21,12 @@ exports.createClient = function(config){
         function bad(e){
           cancelLocalListeners();
           if(e.code === 'ENOENT') {
-            return callback(null, {headers:{statusCode: 404}});
+            return callback(null, {statusCode: 404, headers:{}});
           }
         }
         function good(){
-          stream.headers = {statusCode:200}
+          stream.headers = {};
+          stream.statusCode = 200;
           cancelLocalListeners();
           return callback(null, stream);
         }
@@ -47,10 +48,10 @@ exports.createClient = function(config){
         var r = fs.createReadStream(from),
             w = fs.createWriteStream(config.bucket + to);
         w.on('finish', function(){
-          callback(null, {headers:{statusCode:201}});
+          callback(null, {headers:{}, statusCode:201});
         });
         w.on('error', function(e){
-          callback(null, {headers:{statusCode:404}});
+          callback(null, {headers:{}, statusCode:404});
         });
         r.pipe(w);
       });
@@ -61,13 +62,13 @@ exports.createClient = function(config){
           if (err) {
             return callback(err);
           }
-          return callback(null, {headers:{statusCode:201}});
+          return callback(null, {headers:{}, statusCode:201});
         });
       });
     }
     Client.prototype.deleteFile = function(file, callback){
       fs.unlink(config.bucket + file, function(err){
-        return callback(null, {headers:{statusCode: err ? 404 : 204}});
+        return callback(null, {headers:{}, statusCode: err ? 404 : 204});
       });
     }
   }
