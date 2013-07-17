@@ -22,8 +22,8 @@ describe('Faux-Knox', function(){
   describe('getFile', function(){
     it('should get a file', function(done){
       client.getFile('path/to/test.json', null, function(err, cres){
-        cres.should.have.property('statusCode', 200);
         cres.should.have.property('headers').be.a('object');
+        cres.headers.should.have.property('statusCode', 200);
         function getBuffer(callback){
           var buffer = "";
           cres.on('end', function(){
@@ -44,7 +44,7 @@ describe('Faux-Knox', function(){
     });
     it('should not get a file', function(done){
       client.getFile('path/to/nofile.txt', null, function(err, cres){
-        cres.should.have.property('statusCode', 404);
+        cres.headers.should.have.property('statusCode', 404);
         done();
       });
     });

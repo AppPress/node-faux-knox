@@ -21,12 +21,11 @@ exports.createClient = function(config){
         function bad(e){
           cancelLocalListeners();
           if(e.code === 'ENOENT') {
-            return callback(null, {statusCode: 404});
+            return callback(null, {headers:{statusCode: 404}});
           }
         }
         function good(){
-          stream.headers = headers;
-          stream.statusCode = 200;
+          stream.headers = {statusCode:200}
           cancelLocalListeners();
           return callback(null, stream);
         }
