@@ -62,6 +62,7 @@ describe('Faux-Knox', function(){
     });
     it('should not put a file into bucket', function(done){
       client.putFile('./i/dont/exists.txt', '/dev/null', function(err, res){
+        err.should.be.instanceOf(Error);
         err.should.have.property('code', 'ENOENT');
         done();
       });

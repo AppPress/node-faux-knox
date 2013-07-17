@@ -39,9 +39,7 @@ exports.createClient = function(config){
         utils.checkToPath(config.bucket + to, cb);
       }
       function checkFromPath(cb){
-        fs.exists(from, function(exists){
-          cb(exists ? void 0 : {code:'ENOENT'});
-        });
+        fs.stat(from, cb);
       };
       async.series([checkFromPath, checkToPath], function(err){
         if (err) {
