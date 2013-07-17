@@ -1,6 +1,8 @@
 faux-knox
 =========
 
+![david-dm](https://david-dm.org/wlaurance/faux-knox.png)
+
 A mock knox wrapper
 
 ###Installation
