@@ -42,7 +42,7 @@ exports.createClient = function(config){
       }
       function checkFromPath(cb){
         fs.stat(from, cb);
-      };
+      }
       async.series([checkFromPath, checkToPath], function(err){
         if (err) {
           return callback(err);
@@ -57,7 +57,7 @@ exports.createClient = function(config){
         });
         r.pipe(w);
       });
-    }
+    };
     Client.prototype.putBuffer = function(buffer, to, headers, callback){
       utils.checkToPath(config.bucket + to, function(){
         fs.writeFile(config.bucket + to, buffer, function(err){
@@ -67,12 +67,12 @@ exports.createClient = function(config){
           return callback(null, {headers:{}, statusCode:201});
         });
       });
-    }
+    };
     Client.prototype.deleteFile = function(file, callback){
       fs.unlink(config.bucket + file, function(err){
         return callback(null, {headers:{}, statusCode: err ? 404 : 204});
       });
-    }
+    };
   }
   return new Client(config);
 };

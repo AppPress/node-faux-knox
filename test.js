@@ -32,7 +32,7 @@ describe('Faux-Knox', function(){
           cres.on('data', function(d){
             buffer = buffer + d.toString();
           });
-        };
+        }
         function getFSFile(callback){
           fs.readFile('./test_files/path/to/test.json', callback);
         }
@@ -55,7 +55,7 @@ describe('Faux-Knox', function(){
         res.should.have.property('headers').be.a('object');
         res.should.have.property('statusCode', 201);
         fs.exists('./test_files/from/fort/knox/super_tank.jpg', function(existy){
-          existy.should.be.true;
+          should.strictEqual(existy, true);
           done();
         });
       });
@@ -85,7 +85,7 @@ describe('Faux-Knox', function(){
     it('should delete a file', function(done){
       function fileExists(value, callback){
         fs.exists('./test_files/put/fort_knox_tank.jpg', function(exists){
-          exists.should.be.value;
+          should.strictEqual(exists, value);
           callback();
         });
       }
