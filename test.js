@@ -84,7 +84,7 @@ describe('Faux-Knox', function(){
     });
     it('should delete a file', function(done){
       function fileExists(value, callback){
-        fs.exists('./test_files/put/fort_knox_tank.jpg', function(exists){
+        fs.exists('./test_files/to/a/new/path/here/tank.jpg', function(exists){
           should.strictEqual(exists, value);
           callback();
         });
