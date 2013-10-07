@@ -13,6 +13,10 @@ exports.createClient = function(config){
       }
     }
     Client.prototype.getFile = function(uri, headers, callback){
+        if (!callback && typeof(headers) == "function") {
+          callback = headers;
+          headers = {};
+        }
         var stream = fs.createReadStream(config.bucket + uri);
         function cancelLocalListeners(){
           stream.removeListener('error', bad);
