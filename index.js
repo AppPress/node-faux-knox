@@ -46,13 +46,12 @@ Client.prototype.getFile = function(uri, headers, callback) {
 
 Client.prototype.putFile = function(from, to, callback) {
 	var self = this;
-	function checkToPath(cb) {
+
+	async.series([function (cb) {
 		utils.checkToPath(self.config.bucket + to, cb);
-	}
-	function checkFromPath(cb) {
+	}, function (cb) {
 		fs.stat(from, cb);
-	}
-	async.series([checkFromPath, checkToPath], function(err) {
+	}], function(err) {
 		if (err) {
 			return callback(err);
 		}
