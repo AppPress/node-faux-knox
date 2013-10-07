@@ -1,11 +1,13 @@
-faux-knox
+faux-knox-2
 =========
 
-[![Build Status](https://travis-ci.org/wlaurance/faux-knox.png?branch=master)]
-(https://travis-ci.org/wlaurance/faux-knox)
-![david-dm](https://david-dm.org/wlaurance/faux-knox.png) 
+[![Build Status](https://travis-ci.org/AppPress/faux-knox.png?branch=master)]
+(https://travis-ci.org/AppPress/faux-knox)
+![david-dm](https://david-dm.org/AppPress/faux-knox.png) 
 
 A mock knox wrapper
+
+Froked from https://github.com/wlaurance/faux-knox
 
 ###Installation
 
@@ -13,8 +15,8 @@ A mock knox wrapper
 
 ###Testing
 
-`npm test` 
-          
+`npm test`
+
 ###API
 
 ```js
