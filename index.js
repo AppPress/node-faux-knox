@@ -86,6 +86,32 @@ Client.prototype.deleteFile = function(file, callback) {
 		return callback(null, {headers:{}, statusCode: err ? 404 : 204});
 	});
 };
+Client.prototype.copyFile = function(from, to, callback) {
+	var self = this;
+
+	utils.checkToPath(self.config.bucket + to, function() {
+		var readStream = fs.createReadStream(self.config.bucket + from);
+		var writeStream = fs.createWriteStream(self.config.bucket + to);
+		var isDone = false;
+		var done = function (err) {
+			if (isDone) return;
+			isDone = true;
+
+			if (err) {
+				return callback(err);
+			}
+
+			return callback(null, {headers:{}, statusCode:201});
+		};
+
+		readStream.on("error", done);
+		writeStream.on("error", done);
+		writeStream.on("close", function () {
+			done();
+		});
+		readStream.pipe(writeStream);
+	});
+};
 
 module.exports.createClient = function(config) {
 	return new Client(config);

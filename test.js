@@ -106,6 +106,26 @@ describe("Faux-Knox", function() {
 			});
 		});
 	});
+	describe("copyFile", function () {
+		before(function(done) {
+			client.putFile("./test_files/put/fort_knox_tank.jpg", "to/a/new/path/here/tank.jpg", done);
+		});
+		it("should copy a file", function (done) {
+			function fileExists(value, callback) {
+				fs.exists("./test_files/to/a/new/path/here/tankCopy.jpg", function(exists) {
+					should.strictEqual(exists, value);
+					callback();
+				});
+			}
+			fileExists(false, function() {
+				client.copyFile("to/a/new/path/here/tank.jpg", "to/a/new/path/here/tankCopy.jpg", function(err, res) {
+					res.should.have.property("headers").be.a("object");
+					res.should.have.property("statusCode", 201);
+					fileExists(true, done);
+				});
+			});
+		});
+	});
 	after(function(done) {
 		async.each(["./test_files/from", "./test_files/to"], rimraf, done);
 	});
