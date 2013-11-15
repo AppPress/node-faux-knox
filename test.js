@@ -61,6 +61,16 @@ describe("Faux-Knox", function() {
 				});
 			});
 		});
+		it("should put a file into bucket with headers", function(done) {
+			client.putFile("./test_files/put/fort_knox_tank.jpg", "from/fort/knox/super_tank_headers.jpg", {header: "value"}, function(err, res) {
+				res.should.have.property("headers").be.a("object");
+				res.should.have.property("statusCode", 201);
+				fs.exists("./test_files/from/fort/knox/super_tank_headers.jpg", function(existy) {
+					should.strictEqual(existy, true);
+					done();
+				});
+			});
+		});
 		it("should not put a file into bucket", function(done) {
 			client.putFile("./i/dont/exists.txt", "/dev/null", function(err, res) {
 				err.should.be.instanceOf(Error);

@@ -44,8 +44,12 @@ Client.prototype.getFile = function(uri, headers, callback) {
 	stream.on("readable", good);
 };
 
-Client.prototype.putFile = function(from, to, callback) {
+Client.prototype.putFile = function(from, to, headers, callback) {
 	var self = this;
+
+	if (typeof(callback) == "undefined") {
+		callback = headers;
+	}
 
 	async.series([function (cb) {
 		utils.checkToPath(self.config.bucket + to, cb);
