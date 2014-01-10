@@ -13,6 +13,7 @@ exports.createClient = function(config){
       }
     }
     Client.prototype.getFile = function(uri, headers, callback){
+        uri = decodeURIComponent(uri);
         if (!callback && typeof(headers) == "function") {
           callback = headers;
           headers = {};
@@ -41,6 +42,8 @@ exports.createClient = function(config){
     };
 
     Client.prototype.putFile = function(from, to, callback){
+      from = decodeURIComponent(from);
+      to = decodeURIComponent(to);
       function checkToPath(cb){
         utils.checkToPath(config.bucket + to, cb);
       }
@@ -63,6 +66,7 @@ exports.createClient = function(config){
       });
     };
     Client.prototype.putBuffer = function(buffer, to, headers, callback){
+      to = decodeURIComponent(to);
       utils.checkToPath(config.bucket + to, function(){
         fs.writeFile(config.bucket + to, buffer, function(err){
           if (err) {
@@ -73,6 +77,7 @@ exports.createClient = function(config){
       });
     };
     Client.prototype.deleteFile = function(file, callback){
+      file = decodeURIComponent(file);
       fs.unlink(config.bucket + file, function(err){
         return callback(null, {headers:{}, statusCode: err ? 404 : 204});
       });
