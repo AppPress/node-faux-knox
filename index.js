@@ -116,6 +116,36 @@ Client.prototype.copyFile = function(from, to, callback) {
 		readStream.pipe(writeStream);
 	});
 };
+Client.prototype.list = function (options, cb) {
+	var self = this;
+	async.waterfall([
+		function (cb) {
+			if (!options.prefix) {
+				return cb(new Error("A path prefix must be specified!"));
+			}
+			cb();
+		},
+		function (cb) {
+			utils.checkToPath(self.config.bucket + options.prefix, function () {
+				cb();
+			});
+		},
+		function (cb) {
+			var walk = require("walk");
+			var walker = walk.walk(self.config.bucket + options.prefix);
+			var files = [];
+
+			walker.on("file", function (root, stat, next) {
+				files.push({Key: root + stat.name});
+				next();
+			});
+
+			walker.on("end", function () {
+				cb(null, {Contents: files});
+			});
+		}
+	], cb);
+};
 
 module.exports.createClient = function(config) {
 	return new Client(config);
