@@ -136,7 +136,7 @@ Client.prototype.list = function (options, cb) {
 			var files = [];
 
 			walker.on("file", function (root, stat, next) {
-				files.push({Key: root + stat.name});
+				files.push({Key: options.prefix + stat.name});
 				next();
 			});
 
