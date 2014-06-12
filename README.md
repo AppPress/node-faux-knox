@@ -1,17 +1,15 @@
 faux-knox-2
 =========
 
-[![Build Status](https://travis-ci.org/AppPress/node-faux-knox-2.png?branch=master)]
-(https://travis-ci.org/AppPress/node-faux-knox-2)
-![david-dm](https://david-dm.org/AppPress/node-faux-knox-2.png)
+[![Build Status](https://travis-ci.org/AppPress/node-faux-knox.png?branch=master)]
+(https://travis-ci.org/AppPress/node-faux-knox)
+![david-dm](https://david-dm.org/AppPress/node-faux-knox.png)
 
 A mock knox wrapper
 
-Froked from https://github.com/wlaurance/faux-knox
-
 ###Installation
 
-`npm install faux-knox-2`
+`npm install faux-knox`
 
 ###Testing
 
