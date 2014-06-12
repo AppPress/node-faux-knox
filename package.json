@@ -1,6 +1,6 @@
 {
-  "name": "faux-knox",
-  "version": "0.1.5-1",
+  "name": "faux-knox-2",
+  "version": "0.1.9",
   "description": "Mock requests to knox module using file system",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/wlaurance/faux-knox.git"
+    "url": "git://github.com/AppPress/node-faux-knox-2.git"
   },
   "keywords": [
     "knox",
@@ -17,9 +17,8 @@
   "author": "Will S. Laurance",
   "license": "BSD",
   "readmeFilename": "README.md",
-  "gitHead": "cf1d54e5cf8ae5e6a6e2142ab42f7eb4a068147a",
   "bugs": {
-    "url": "https://github.com/wlaurance/faux-knox/issues"
+    "url": "https://github.com/AppPress/node-faux-knox-2/issues"
   },
   "devDependencies": {
     "mocha": "~1.12.0",
@@ -29,6 +28,7 @@
     "underscore": "~1.5.1",
     "async": "~0.2.9",
     "mkdirp": "~0.3.5",
-    "rimraf": "~2.2.1"
+    "rimraf": "~2.2.1",
+    "walk": "^2.3.1"
   }
 }
