@@ -1,5 +1,5 @@
 {
-  "name": "faux-knox-2",
+  "name": "faux-knox",
   "version": "0.1.9",
   "description": "Mock requests to knox module using file system",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/AppPress/node-faux-knox-2.git"
+    "url": "git://github.com/AppPress/node-faux-knox.git"
   },
   "keywords": [
     "knox",
@@ -18,7 +18,7 @@
   "license": "BSD",
   "readmeFilename": "README.md",
   "bugs": {
-    "url": "https://github.com/AppPress/node-faux-knox-2/issues"
+    "url": "https://github.com/AppPress/node-faux-knox/issues"
   },
   "devDependencies": {
     "mocha": "~1.12.0",
