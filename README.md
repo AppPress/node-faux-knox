@@ -1,4 +1,4 @@
-faux-knox-2
+faux-knox
 =========
 
 [![Build Status](https://travis-ci.org/AppPress/node-faux-knox.png?branch=master)]
@@ -84,4 +84,3 @@ callback(err, res)
 
 All of the other [knox](https://github.com/LearnBoost/knox)
 functionality
-
