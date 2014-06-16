@@ -9,4 +9,4 @@ var checkToPath = module.exports.checkToPath = function (to, cb) {
 	fs.exists(dirPath, function(exists){
 		return exists ? cb() : mkdirp(dirPath, cb);
 	});
-}
+};

@@ -9,12 +9,12 @@ describe("Faux-Knox", function() {
 
 	describe("API", function() {
 		it("should have a createClient function", function() {
-			knox.should.have.property("createClient").be.a("function");
+			knox.should.have.property("createClient").and.be.a.Function;
 		});
 		it("should support methods", function(done) {
 			var methods = ["getFile", "putFile", "putBuffer", "deleteFile"];
 			function checker(method, callback) {
-				client.should.have.property(method).be.a("function");
+				client.should.have.property(method).and.be.a.Function;
 				callback();
 			}
 			async.each(methods, checker, done);
@@ -23,7 +23,7 @@ describe("Faux-Knox", function() {
 	describe("getFile", function() {
 		it("should get a file", function(done) {
 			client.getFile("path/to/test.json", null, function(err, cres) {
-				cres.should.have.property("headers").be.a("object");
+				cres.should.have.property("headers").and.be.a.Object;
 				cres.should.have.property("statusCode", 200);
 				function getBuffer(callback) {
 					var buffer = "";
@@ -53,7 +53,7 @@ describe("Faux-Knox", function() {
 	describe("putFile", function() {
 		it("should put a file into bucket", function(done) {
 			client.putFile("./test_files/put/fort_knox_tank.jpg", "from/fort/knox/super_tank.jpg", function(err, res) {
-				res.should.have.property("headers").be.a("object");
+				res.should.have.property("headers").and.be.a.Object;
 				res.should.have.property("statusCode", 201);
 				fs.exists("./test_files/from/fort/knox/super_tank.jpg", function(existy) {
 					should.strictEqual(existy, true);
@@ -63,7 +63,7 @@ describe("Faux-Knox", function() {
 		});
 		it("should put a file into bucket with headers", function(done) {
 			client.putFile("./test_files/put/fort_knox_tank.jpg", "from/fort/knox/super_tank_headers.jpg", {header: "value"}, function(err, res) {
-				res.should.have.property("headers").be.a("object");
+				res.should.have.property("headers").and.be.a.Object;
 				res.should.have.property("statusCode", 201);
 				fs.exists("./test_files/from/fort/knox/super_tank_headers.jpg", function(existy) {
 					should.strictEqual(existy, true);
@@ -83,7 +83,7 @@ describe("Faux-Knox", function() {
 		it("should put a buffer where I tell it to", function(done) {
 			var buff = new Buffer(4096);
 			client.putBuffer(buff, "from/buffer/land/dev/null.text", {"Content-Type":"text/plain"}, function(err, res) {
-				res.should.have.property("headers").be.a("object");
+				res.should.have.property("headers").and.be.a.Object;
 				res.should.have.property("statusCode", 201);
 				done();
 			});
@@ -102,7 +102,7 @@ describe("Faux-Knox", function() {
 			}
 			fileExists(true, function() {
 				client.deleteFile("to/a/new/path/here/tank.jpg", function(err, res) {
-					res.should.have.property("headers").be.a("object");
+					res.should.have.property("headers").and.be.a.Object;
 					res.should.have.property("statusCode", 204);
 					fileExists(false, done);
 				});
@@ -110,7 +110,7 @@ describe("Faux-Knox", function() {
 		});
 		it("should not delete a file", function(done) {
 			client.deleteFile("not/a/real/path.js", function(err, res) {
-				res.should.have.property("headers").be.a("object");
+				res.should.have.property("headers").and.be.a.Object;
 				res.should.have.property("statusCode", 404);
 				done();
 			});
@@ -129,7 +129,7 @@ describe("Faux-Knox", function() {
 			}
 			fileExists(false, function() {
 				client.copyFile("to/a/new/path/here/tank.jpg", "to/a/new/path/here/tankCopy.jpg", function(err, res) {
-					res.should.have.property("headers").be.a("object");
+					res.should.have.property("headers").and.be.a.Object;
 					res.should.have.property("statusCode", 201);
 					fileExists(true, done);
 				});

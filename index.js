@@ -70,6 +70,7 @@ Client.prototype.putFile = function(from, to, headers, callback) {
 		r.pipe(w);
 	});
 };
+
 Client.prototype.putBuffer = function(buffer, to, headers, callback) {
 	var self = this;
 
@@ -83,6 +84,7 @@ Client.prototype.putBuffer = function(buffer, to, headers, callback) {
 		});
 	});
 };
+
 Client.prototype.deleteFile = function(file, callback) {
 	var self = this;
 
@@ -90,6 +92,7 @@ Client.prototype.deleteFile = function(file, callback) {
 		return callback(null, {headers:{}, statusCode: err ? 404 : 204});
 	});
 };
+
 Client.prototype.copyFile = function(from, to, callback) {
 	var self = this;
 
@@ -116,6 +119,7 @@ Client.prototype.copyFile = function(from, to, callback) {
 		readStream.pipe(writeStream);
 	});
 };
+
 Client.prototype.list = function (options, cb) {
 	var self = this;
 	async.waterfall([
@@ -150,5 +154,3 @@ Client.prototype.list = function (options, cb) {
 module.exports.createClient = function(config) {
 	return new Client(config);
 };
-
-
