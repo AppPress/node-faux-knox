@@ -150,5 +150,15 @@ describe("Faux-Knox", function() {
         done();
       });
     });
+    it("should join paths correctly", function (done) {
+      var opts = {prefix: "list"};
+      client.list(opts, function (err, page) {
+        if (err) return done(err);
+        page.Contents.should.eql([
+          {Key: "list/one"}, {Key: "list/two"}
+        ]);
+        done();
+      });
+    });
   });
 });

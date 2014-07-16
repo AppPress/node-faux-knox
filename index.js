@@ -1,6 +1,7 @@
 var fs = require("fs");
 var async = require("async");
 var utils = require(__dirname + "/utils");
+var join = require("path").join;
 
 var Client = module.exports = function (config) {
 	config = this.config = config || {};
@@ -140,7 +141,7 @@ Client.prototype.list = function (options, cb) {
 			var files = [];
 
 			walker.on("file", function (root, stat, next) {
-				files.push({Key: options.prefix + stat.name});
+				files.push({Key: join(options.prefix, stat.name)});
 				next();
 			});
 
