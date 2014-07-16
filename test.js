@@ -141,11 +141,11 @@ describe("Faux-Knox", function() {
 	});
   describe("list", function() {
     it("should list", function (done) {
-      var opts = { prefix: "list/" };
+      var opts = {prefix: "list/"};
       client.list(opts, function (err, page) {
         if (err) return done(err);
         page.Contents.should.eql([
-          { Key: "list/one" }, { Key: "list/two" }
+          {Key: "list/one"}, {Key: "list/two"}
         ]);
         done();
       });
