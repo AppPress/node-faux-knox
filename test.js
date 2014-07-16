@@ -139,4 +139,16 @@ describe("Faux-Knox", function() {
 	after(function(done) {
 		async.each(["./test_files/from", "./test_files/to"], rimraf, done);
 	});
+  describe("list", function() {
+    it("should list", function (done) {
+      var opts = { prefix: "list/" };
+      client.list(opts, function (err, page) {
+        if (err) return done(err);
+        page.Contents.should.eql([
+          { Key: "list/one" }, { Key: "list/two" }
+        ]);
+        done();
+      });
+    });
+  });
 });
