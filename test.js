@@ -160,5 +160,15 @@ describe("Faux-Knox", function() {
         done();
       });
     });
+    it("should list recursively", function (done) {
+      var opts = {prefix: "list_nested"};
+      client.list(opts, function (err, page) {
+        if (err) return done(err);
+        page.Contents.should.eql([
+          {Key: "list_nested/level/one"}, {Key: "list_nested/level/two"}
+        ]);
+        done();
+      });
+    });
   });
 });
