@@ -5,7 +5,7 @@ faux-knox
 (https://travis-ci.org/AppPress/node-faux-knox)
 ![david-dm](https://david-dm.org/AppPress/node-faux-knox.png)
 
-A mock knox wrapper
+A knox wrapper that allows you to use the local file system instead of S3
 
 ###Installation
 
