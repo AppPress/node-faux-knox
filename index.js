@@ -1,6 +1,8 @@
 var fs = require("fs");
 var async = require("async");
 var utils = require(__dirname + "/utils");
+var join = require("path").join;
+var relative = require("path").relative;
 
 var Client = module.exports = function (config) {
 	config = this.config = config || {};
@@ -140,7 +142,8 @@ Client.prototype.list = function (options, cb) {
 			var files = [];
 
 			walker.on("file", function (root, stat, next) {
-				files.push({Key: options.prefix + stat.name});
+				var directory = relative(self.config.bucket, root);
+				files.push({Key: join(directory, stat.name)});
 				next();
 			});
 
