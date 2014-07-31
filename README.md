@@ -31,6 +31,15 @@ var client = knox.createClient({
 
 ####Implemented
 
+#####list
+
+```js
+function(options, callback)
+
+callback(err, list)
+```
+`list` is an object with a Contents array containing the returned files.
+
 #####getFile
 
 ```js
