@@ -1,6 +1,6 @@
 {
   "name": "faux-knox",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Mock requests to knox module using file system",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "url": "https://github.com/AppPress/node-faux-knox/issues"
   },
   "devDependencies": {
-    "mocha": "~1.21.3",
+    "mocha": "~1.21.4",
     "should": "~4.0.4"
   },
   "dependencies": {

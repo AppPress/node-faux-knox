@@ -16,7 +16,7 @@ var Client = module.exports = function (config) {
 	}
 };
 
-Client.prototype.getFile = function(uri, headers, callback) {
+Client.prototype.getFile = function (uri, headers, callback) {
 	var self = this;
 
 	if (!callback && typeof(headers) == "function") {
@@ -30,7 +30,7 @@ Client.prototype.getFile = function(uri, headers, callback) {
 	}
 	function bad(e) {
 		cancelLocalListeners();
-		if(e.code === "ENOENT") {
+		if (e.code === "ENOENT") {
 			stream.statusCode = 404;
 			stream.headers = {};
 			return callback(null, stream);
@@ -46,7 +46,7 @@ Client.prototype.getFile = function(uri, headers, callback) {
 	stream.on("readable", good);
 };
 
-Client.prototype.putFile = function(from, to, headers, callback) {
+Client.prototype.putFile = function (from, to, headers, callback) {
 	var self = this;
 
 	if (typeof(callback) == "undefined") {
@@ -57,27 +57,28 @@ Client.prototype.putFile = function(from, to, headers, callback) {
 		utils.checkToPath(self.config.bucket + to, cb);
 	}, function (cb) {
 		fs.stat(from, cb);
-	}], function(err) {
+	}], function (err) {
 		if (err) {
 			return callback(err);
 		}
-		var r = fs.createReadStream(from),
-				w = fs.createWriteStream(self.config.bucket + to);
-		w.on("finish", function() {
+		var r = fs.createReadStream(from);
+		var w = fs.createWriteStream(self.config.bucket + to);
+
+		w.on("finish", function () {
 			callback(null, {headers:{}, statusCode:201});
 		});
-		w.on("error", function(e) {
+		w.on("error", function (e) {
 			callback(null, {headers:{}, statusCode:404});
 		});
 		r.pipe(w);
 	});
 };
 
-Client.prototype.putBuffer = function(buffer, to, headers, callback) {
+Client.prototype.putBuffer = function (buffer, to, headers, callback) {
 	var self = this;
 
-	utils.checkToPath(self.config.bucket + to, function() {
-		fs.writeFile(self.config.bucket + to, buffer, function(err) {
+	utils.checkToPath(self.config.bucket + to, function () {
+		fs.writeFile(self.config.bucket + to, buffer, function (err) {
 			if (err) {
 				return callback(err);
 			}
@@ -87,18 +88,18 @@ Client.prototype.putBuffer = function(buffer, to, headers, callback) {
 	});
 };
 
-Client.prototype.deleteFile = function(file, callback) {
+Client.prototype.deleteFile = function (file, callback) {
 	var self = this;
 
-	fs.unlink(self.config.bucket + file, function(err) {
+	fs.unlink(self.config.bucket + file, function (err) {
 		return callback(null, {headers:{}, statusCode: err ? 404 : 204});
 	});
 };
 
-Client.prototype.copyFile = function(from, to, callback) {
+Client.prototype.copyFile = function (from, to, callback) {
 	var self = this;
 
-	utils.checkToPath(self.config.bucket + to, function() {
+	utils.checkToPath(self.config.bucket + to, function () {
 		var readStream = fs.createReadStream(self.config.bucket + from);
 		var writeStream = fs.createWriteStream(self.config.bucket + to);
 		var isDone = false;
@@ -124,6 +125,11 @@ Client.prototype.copyFile = function(from, to, callback) {
 
 Client.prototype.list = function (options, cb) {
 	var self = this;
+
+	if (options.prefix === "") {
+		options.prefix = "/";
+	}
+
 	async.waterfall([
 		function (cb) {
 			if (!options.prefix) {
@@ -154,6 +160,6 @@ Client.prototype.list = function (options, cb) {
 	], cb);
 };
 
-module.exports.createClient = function(config) {
+module.exports.createClient = function (config) {
 	return new Client(config);
 };
