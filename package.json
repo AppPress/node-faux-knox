@@ -1,6 +1,6 @@
 {
   "name": "faux-knox",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Mock requests to knox module using file system",
   "main": "index.js",
   "scripts": {

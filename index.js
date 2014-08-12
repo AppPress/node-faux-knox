@@ -126,14 +126,10 @@ Client.prototype.copyFile = function (from, to, callback) {
 Client.prototype.list = function (options, cb) {
 	var self = this;
 
-	if (options.prefix === "") {
-		options.prefix = "/";
-	}
-
 	async.waterfall([
 		function (cb) {
 			if (!options.prefix) {
-				return cb(new Error("A path prefix must be specified!"));
+				options.prefix = "/";
 			}
 			cb();
 		},
