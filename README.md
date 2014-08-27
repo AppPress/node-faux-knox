@@ -60,7 +60,7 @@ callback(err, res)
 
 `to` is the path to write the from bytes mounted in the bucket specified.
 
-`res.headers.statusCode` is 201 on successful creation.
+`res.headers.statusCode` is 200 on successful creation.
 
 #####putBuffer
 
@@ -75,7 +75,7 @@ callback(err, res)
 
 `headers` used by knox module, ignored here
 
-`res.headers.statusCode` is 201 on successful creation.
+`res.headers.statusCode` is 200 on successful creation.
 
 #####deleteFile
 

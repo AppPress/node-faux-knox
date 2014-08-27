@@ -65,7 +65,7 @@ Client.prototype.putFile = function (from, to, headers, callback) {
 		var w = fs.createWriteStream(self.config.bucket + to);
 
 		w.on("finish", function () {
-			callback(null, {headers:{}, statusCode:201});
+			callback(null, {headers:{}, statusCode:200});
 		});
 		w.on("error", function (e) {
 			callback(null, {headers:{}, statusCode:404});
@@ -83,7 +83,7 @@ Client.prototype.putBuffer = function (buffer, to, headers, callback) {
 				return callback(err);
 			}
 
-			return callback(null, {headers:{}, statusCode:201});
+			return callback(null, {headers:{}, statusCode:200});
 		});
 	});
 };
@@ -111,7 +111,7 @@ Client.prototype.copyFile = function (from, to, callback) {
 				return callback(err);
 			}
 
-			return callback(null, {headers:{}, statusCode:201});
+			return callback(null, {headers:{}, statusCode:200});
 		};
 
 		readStream.on("error", done);
