@@ -125,35 +125,25 @@ Client.prototype.copyFile = function (from, to, callback) {
 
 Client.prototype.list = function (options, cb) {
 	var self = this;
+	var baseDirectory = self.config.bucket + (options.prefix || '/');
+	utils.checkToPath(baseDirectory, function() {
+		var walk = require("walk");
+		var walker = walk.walk(baseDirectory);
+		var files = [];
 
-	async.waterfall([
-		function (cb) {
-			if (!options.prefix) {
-				options.prefix = "/";
-			}
-			cb();
-		},
-		function (cb) {
-			utils.checkToPath(self.config.bucket + options.prefix, function () {
-				cb();
+		walker.on("file", function (root, stat, next) {
+			files.push({
+				Key: join(relative(self.config.bucket, root), stat.name),
+				Size: stat.size,
+				LastModified: stat.mtime
 			});
-		},
-		function (cb) {
-			var walk = require("walk");
-			var walker = walk.walk(self.config.bucket + options.prefix);
-			var files = [];
+			next();
+		});
 
-			walker.on("file", function (root, stat, next) {
-				var directory = relative(self.config.bucket, root);
-				files.push({Key: join(directory, stat.name)});
-				next();
-			});
-
-			walker.on("end", function () {
-				cb(null, {Contents: files});
-			});
-		}
-	], cb);
+		walker.on("end", function () {
+			cb(null, {Contents: files});
+		});
+	});
 };
 
 module.exports.createClient = function (config) {
