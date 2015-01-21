@@ -144,9 +144,11 @@ describe("Faux-Knox", function () {
 			var opts = {prefix: "list/"};
 			client.list(opts, function (err, page) {
 				if (err) return done(err);
-				page.Contents.should.eql([
-					{Key: "list/one"}, {Key: "list/two"}
-				]);
+				var files = ['list/one', 'list/two'].map(function(file){
+					var stats = fs.statSync('./test_files/'+file);
+					return {Key: file, Size: stats.size, LastModified: stats.mtime};
+				});
+				page.Contents.should.eql(files);
 				done();
 			});
 		});
@@ -154,9 +156,11 @@ describe("Faux-Knox", function () {
 			var opts = {prefix: "list"};
 			client.list(opts, function (err, page) {
 				if (err) return done(err);
-				page.Contents.should.eql([
-					{Key: "list/one"}, {Key: "list/two"}
-				]);
+				var files = ['list/one', 'list/two'].map(function(file){
+					var stats = fs.statSync('./test_files/'+file);
+					return {Key: file, Size: stats.size, LastModified: stats.mtime};
+				});
+				page.Contents.should.eql(files);
 				done();
 			});
 		});
@@ -164,9 +168,11 @@ describe("Faux-Knox", function () {
 			var opts = {prefix: "list_nested"};
 			client.list(opts, function (err, page) {
 				if (err) return done(err);
-				page.Contents.should.eql([
-					{Key: "list_nested/level/one"}, {Key: "list_nested/level/two"}
-				]);
+				var files = ['list_nested/level/one', 'list_nested/level/two'].map(function(file){
+					var stats = fs.statSync('./test_files/'+file);
+					return {Key: file, Size: stats.size, LastModified: stats.mtime};
+				});
+				page.Contents.should.eql(files);
 				done();
 			});
 		});
