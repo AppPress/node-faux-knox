@@ -3,6 +3,22 @@ var async = require("async");
 var utils = require(__dirname + "/utils");
 var join = require("path").join;
 var relative = require("path").relative;
+var once = require("once");
+var StreamCounter = require("stream-counter");
+
+var s3Response = {
+	'200': { headers: {}, statusCode: 200 },
+	'404': { headers: {}, statusCode: 404 }
+};
+
+function getHeader(headers, headerNameLowerCase) {
+  for (var header in headers) {
+    if (header.toLowerCase() === headerNameLowerCase) {
+      return headers[header];
+    }
+  }
+  return null;
+}
 
 var Client = module.exports = function (config) {
 	config = this.config = config || {};
@@ -65,10 +81,10 @@ Client.prototype.putFile = function (from, to, headers, callback) {
 		var w = fs.createWriteStream(self.config.bucket + to);
 
 		w.on("finish", function () {
-			callback(null, {headers:{}, statusCode:200});
+			callback(null, s3Response['200']);
 		});
 		w.on("error", function (e) {
-			callback(null, {headers:{}, statusCode:404});
+			callback(null, s3Response['404']);
 		});
 		r.pipe(w);
 	});
@@ -83,10 +99,44 @@ Client.prototype.putBuffer = function (buffer, to, headers, callback) {
 				return callback(err);
 			}
 
-			return callback(null, {headers:{}, statusCode:200});
+			return callback(null, s3Response['200']);
 		});
 	});
 };
+
+Client.prototype.putStream = function (stream, filename, headers, callback) {
+	var contentLength = getHeader(headers, 'content-length');
+	if (contentLength === null) {
+		process.nextTick(function () {
+			callback(new Error('You must specify a Content-Length header.'));
+		});
+		return;
+	}
+
+	callback = once(callback);
+	var writeLocation = this.config.bucket + filename;
+
+	utils.checkToPathSync(writeLocation);
+	var writeStream = fs.createWriteStream(writeLocation);
+	writeStream.on('error', callback);
+
+	var counter = new StreamCounter();
+	counter.on('progress', function () {
+		writeStream.emit('progress', {
+			percent: counter.bytes / contentLength * 100 | 0,
+			written: counter.bytes,
+			total: contentLength
+		});
+	});
+
+	stream.pipe(counter)
+	stream.pipe(writeStream)
+
+	writeStream.on('close', function () {
+		callback(null, s3Response['200']);
+	});
+	return writeStream
+}
 
 Client.prototype.deleteFile = function (file, callback) {
 	var self = this;
@@ -111,7 +161,7 @@ Client.prototype.copyFile = function (from, to, callback) {
 				return callback(err);
 			}
 
-			return callback(null, {headers:{}, statusCode:200});
+			return callback(null, s3Response['200']);
 		};
 
 		readStream.on("error", done);
