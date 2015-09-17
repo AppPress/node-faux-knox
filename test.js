@@ -12,7 +12,7 @@ describe("Faux-Knox", function () {
 			knox.should.have.property("createClient").and.be.a.Function;
 		});
 		it("should support methods", function (done) {
-			var methods = ["getFile", "putFile", "putBuffer", "deleteFile"];
+			var methods = ["getFile", "putFile", "putBuffer", "putStream", "deleteFile"];
 			function checker(method, callback) {
 				client.should.have.property(method).and.be.a.Function;
 				callback();
@@ -83,6 +83,18 @@ describe("Faux-Knox", function () {
 		it("should put a buffer where I tell it to", function (done) {
 			var buff = new Buffer(4096);
 			client.putBuffer(buff, "from/buffer/land/dev/null.text", {"Content-Type":"text/plain"}, function(err, res) {
+				res.should.have.property("headers").and.be.a.Object;
+				res.should.have.property("statusCode", 200);
+				done();
+			});
+		});
+	});
+	describe("putStream", function () {
+		it("should put a stream where I tell it to", function (done) {
+			var readStream = fs.createReadStream("./test_files/path/to/test.json");
+			// Faking content-length for now, but should probably test progress events
+			var headers = {"Content-Length":"100"};
+			client.putStream(readStream, 'path/to/stream/streamed.json', headers, function (err, res) {
 				res.should.have.property("headers").and.be.a.Object;
 				res.should.have.property("statusCode", 200);
 				done();
